@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: theme('colors.paper.DEFAULT');
+  color: theme('colors.ink.DEFAULT');
+}
+
+.dark body {
+  background-color: theme('colors.bg.dark');
+  color: #EDEAE3;
+}
+
+/* ---- Index-card flashcard ---- */
+
+.flip-scene {
+  perspective: 1600px;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 0.9rem;
+}
+
+.flip-face--back {
+  transform: rotateY(180deg);
+}
+
+/* Punch-card tick row, used as a small recurring motif (progress, dividers) */
+.punch-row {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.punch-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 9999px;
+  background-color: currentColor;
+  opacity: 0.25;
+}
+
+.punch-dot.is-filled {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none;
+  }
+}

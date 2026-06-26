@@ -1,0 +1,107 @@
+// Prisma schema for Lexika — vocabulary learning app
+// Run `npx prisma migrate dev --name init` after setting DATABASE_URL in .env
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  role          String    @default("USER")  // USER | ADMIN
+  dailyGoal     Int       @default(20)
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastStudyDate DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  progress   UserWordProgress[]
+  reviews    ReviewLog[]
+  activities Activity[]
+}
+
+model Unit {
+  id        String   @id @default(cuid())
+  number    Int      @unique
+  title     String?
+  createdAt DateTime @default(now())
+
+  words Word[]
+}
+
+model Word {
+  id          String   @id @default(cuid())
+  unitId      String
+  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  orderInUnit Int
+  english     String
+  uzbek       String
+  definition  String
+  example     String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  progress UserWordProgress[]
+
+  @@unique([unitId, english])
+  @@index([unitId])
+}
+
+model UserWordProgress {
+  id             String      @id @default(cuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wordId         String
+  word           Word        @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  status         String      @default("NEW")  // NEW | LEARNING | REVIEWING | MASTERED
+  step           Int         @default(0)
+  intervalDays   Float       @default(0)
+  repetitions    Int         @default(0)
+  dueDate        DateTime    @default(now())
+  lastReviewedAt DateTime?
+  correctCount   Int         @default(0)
+  incorrectCount Int         @default(0)
+  isBookmarked   Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([userId, wordId])
+  @@index([userId, dueDate])
+  @@index([userId, status])
+  @@index([userId, isBookmarked])
+}
+
+model ReviewLog {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wordId     String
+  mode       String       // FLASHCARD | MCQ | TYPING | CONTEXT | IMAGE
+  grade      String?      // AGAIN | HARD | GOOD | EASY
+  correct    Boolean
+  reviewedAt DateTime     @default(now())
+
+  @@index([userId, reviewedAt])
+}
+
+model Activity {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date           DateTime
+  wordsReviewed  Int      @default(0)
+  correctCount   Int      @default(0)
+  incorrectCount Int      @default(0)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
