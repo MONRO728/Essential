@@ -87,7 +87,7 @@ export function FlashcardMode({
         </div>
       ) : (
         <p className="mt-6 text-center text-sm text-ink-soft/70 dark:text-white/40">
-          Try to recall the meaning before flipping — that's active recall.
+          Try to recall the meaning before flipping — that&apos;s active recall.
         </p>
       )}
     </div>

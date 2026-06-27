@@ -1,5 +1,6 @@
-import type { Word, UserWordProgress, WordStatus } from '@prisma/client';
+import type { Word, UserWordProgress } from '@prisma/client';
 
+export type WordStatus = 'NEW' | 'LEARNING' | 'REVIEWING' | 'MASTERED';
 export type Grade = 'AGAIN' | 'HARD' | 'GOOD' | 'EASY';
 export type ModeName = 'FLASHCARD' | 'MCQ' | 'TYPING' | 'CONTEXT' | 'IMAGE';
 

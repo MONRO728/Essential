@@ -1,4 +1,4 @@
-import { ReviewGrade, WordStatus } from '@prisma/client';
+import type { Grade, WordStatus } from '@/types';
 
 /**
  * Lexika uses a fixed-ladder spaced repetition schedule rather than a
@@ -34,7 +34,7 @@ export interface ProgressUpdate {
  */
 export function computeNextReview(
   current: ProgressSnapshot,
-  grade: ReviewGrade,
+  grade: Grade,
   now: Date = new Date()
 ): ProgressUpdate {
   const lastStep = SCHEDULE_DAYS.length - 1;
@@ -84,7 +84,7 @@ export function computeNextReview(
   return { step, repetitions, intervalDays, status, dueDate, correctDelta, incorrectDelta };
 }
 
-function computeStatus(step: number, repetitions: number, grade: ReviewGrade): WordStatus {
+function computeStatus(step: number, repetitions: number, grade: Grade): WordStatus {
   if (grade === 'AGAIN') return 'LEARNING';
   const lastStep = SCHEDULE_DAYS.length - 1;
   // Mastered once a word has cleared the full ladder (reached the 30-day

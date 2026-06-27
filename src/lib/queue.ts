@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import type { StudyCard } from '@/types';
+import type { StudyCard, WordStatus } from '@/types';
 
 export async function getStudyQueue(params: {
   userId: string;
@@ -22,7 +22,7 @@ export async function getStudyQueue(params: {
       orderBy: { updatedAt: 'desc' },
       take: limit,
     });
-    return rows.map((r) => toStudyCard(r.word, r, false));
+    return rows.map((r) => toStudyCard(r.word, { status: r.status as WordStatus, isBookmarked: r.isBookmarked }, false));
   }
 
   const wordFilter =
@@ -44,7 +44,9 @@ export async function getStudyQueue(params: {
     take: limit,
   });
 
-  const due = dueRows.map((r) => toStudyCard(r.word, r, false));
+  const due = dueRows.map((r) =>
+    toStudyCard(r.word, { status: r.status as WordStatus, isBookmarked: r.isBookmarked }, false)
+  );
   const remaining = limit - due.length;
 
   let fresh: StudyCard[] = [];
@@ -67,7 +69,7 @@ export async function getStudyQueue(params: {
 
 function toStudyCard(
   word: { id: string; english: string; uzbek: string; definition: string; example: string; imageUrl: string | null; unit: { number: number } },
-  progress: { status: 'NEW' | 'LEARNING' | 'REVIEWING' | 'MASTERED'; isBookmarked: boolean } | null,
+  progress: { status: WordStatus; isBookmarked: boolean } | null,
   isNew: boolean
 ): StudyCard {
   return {
@@ -78,7 +80,7 @@ function toStudyCard(
     example: word.example,
     imageUrl: word.imageUrl,
     unitNumber: word.unit.number,
-    status: progress?.status ?? 'NEW',
+    status: (progress?.status ?? 'NEW') as WordStatus,
     isBookmarked: progress?.isBookmarked ?? false,
     isNew,
   };

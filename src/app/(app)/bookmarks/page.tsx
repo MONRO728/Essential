@@ -6,6 +6,8 @@ import { Bookmark, BookmarkX, Inbox } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
+export const dynamic = 'force-dynamic';
+
 interface BookmarkedWord {
   id: string;
   english: string;
@@ -40,7 +42,7 @@ export default function BookmarksPage() {
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink dark:text-white">Difficult words</h1>
           <p className="text-sm text-ink-soft dark:text-white/60">
-            Anything you've bookmarked from a study session lands here for focused review.
+            Anything you&apos;ve bookmarked from a study session lands here for focused review.
           </p>
         </div>
         {words && words.length > 0 && (

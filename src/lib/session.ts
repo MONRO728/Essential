@@ -2,6 +2,8 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 /** Returns the signed-in session, or null. Safe to call from server components and route handlers. */
 export async function getCurrentSession() {
   return getServerSession(authOptions);

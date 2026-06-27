@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { Navbar } from '@/components/navbar';
 import { MobileTabBar } from '@/components/mobile-tabbar';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
   const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: { currentStreak: true } });

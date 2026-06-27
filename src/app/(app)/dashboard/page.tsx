@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { BookCheck, Trophy, Target, Flame } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 import { requireUser } from '@/lib/session';
 import { getDashboardStats } from '@/lib/stats';
 import { getUnitSummaries } from '@/lib/stats';
@@ -41,10 +43,10 @@ export default async function DashboardPage() {
         <div className="flex items-center gap-5">
           <DailyGoalRing studied={stats.studiedToday} goal={stats.dailyGoal} />
           <div>
-            <p className="font-display text-lg font-semibold text-ink dark:text-white">Today's goal</p>
+            <p className="font-display text-lg font-semibold text-ink dark:text-white">Today&apos;s goal</p>
             <p className="text-sm text-ink-soft dark:text-white/60">
               {stats.studiedToday >= stats.dailyGoal
-                ? "Nice work — you've hit your goal for today."
+                ? "Nice work — you&apos;ve hit your goal for today."
                 : `${stats.dailyGoal - stats.studiedToday} more word reviews to go.`}
             </p>
             <p className="mt-1 text-xs text-ink-soft/70 dark:text-white/40">

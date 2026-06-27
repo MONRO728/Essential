@@ -44,7 +44,7 @@ export function ContextMode({
       </div>
 
       <blockquote className="mb-5 border-l-2 border-amber-400 pl-4 font-display text-lg italic text-ink dark:text-white">
-        "{blanked}"
+        &quot;{blanked}&quot;
       </blockquote>
 
       <div className="grid gap-2.5 sm:grid-cols-2">

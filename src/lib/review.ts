@@ -1,13 +1,13 @@
-import { ReviewGrade, ReviewMode } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
+import type { Grade, ModeName, WordStatus } from '@/types';
 import { computeNextReview, initialProgress } from '@/lib/spaced-repetition';
 import { startOfDay, updateStreak } from '@/lib/utils';
 
 export async function recordReview(params: {
   userId: string;
   wordId: string;
-  mode: ReviewMode;
-  grade: ReviewGrade;
+  mode: ModeName;
+  grade: Grade;
 }) {
   const { userId, wordId, mode, grade } = params;
   const now = new Date();
@@ -21,7 +21,7 @@ export async function recordReview(params: {
         step: existing.step,
         repetitions: existing.repetitions,
         intervalDays: existing.intervalDays,
-        status: existing.status,
+        status: existing.status as WordStatus,
       }
     : initialProgress();
 
@@ -102,6 +102,6 @@ export async function recordReview(params: {
 }
 
 /** Maps a simple right/wrong quiz answer onto the Again/Good grading lanes. */
-export function gradeFromCorrectness(correct: boolean): ReviewGrade {
+export function gradeFromCorrectness(correct: boolean): Grade {
   return correct ? 'GOOD' : 'AGAIN';
 }

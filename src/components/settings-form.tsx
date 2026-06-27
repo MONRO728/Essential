@@ -41,7 +41,7 @@ export function SettingsForm({ initialName, initialGoal }: { initialName: string
               onChange={(e) => setDailyGoal(parseInt(e.target.value, 10) || 0)}
             />
             <p className="mt-1 text-xs text-ink-soft/70 dark:text-white/40">
-              How many word reviews count as "done" for the day on your dashboard.
+              How many word reviews count as &quot;done&quot; for the day on your dashboard.
             </p>
           </div>
           <Button type="submit" disabled={status === 'saving'}>

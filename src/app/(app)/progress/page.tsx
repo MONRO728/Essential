@@ -8,6 +8,8 @@ import { ActivityChart } from '@/components/activity-chart';
 import { BookCheck, Trophy, Target, Flame, Award } from 'lucide-react';
 import { formatPercent } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProgressPage() {
   const user = await requireUser();
   const [stats, units, activity, byStatus] = await Promise.all([
@@ -76,7 +78,7 @@ export default async function ProgressPage() {
         <Card className="flex items-center gap-3 p-5">
           <Award className="text-amber-500" size={22} />
           <p className="text-sm text-ink dark:text-white">
-            You've mastered every word in the list — incredible work.
+            You&apos;ve mastered every word in the list — incredible work.
           </p>
         </Card>
       )}
